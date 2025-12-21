@@ -1,3 +1,4 @@
+// client/src/App.jsx
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -19,7 +20,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      {user && <Navbar user={user} setUser={setUser} />}
+      {<Navbar user={user} setUser={setUser} />}
 
       <Routes>
         {/* Public */}
@@ -35,7 +36,7 @@ export default function App() {
         {/* Protected */}
         <Route
           path="/"
-          element={user ? <Home /> : <Navigate to="/login" />}
+          element={ <Home />}
         />
 
         <Route
@@ -44,29 +45,29 @@ export default function App() {
         />
 
         <Route
-          path="/profile"
-          element={user ? <Profile user={user} /> : <Navigate to="/login" />}
+          path="/profile/:id"
+          element={<Profile />}
         />
 
         <Route
           path="/chat"
-          element={user ? <Chat user={user} /> : <Navigate to="/login" />}
+          element={<Chat user={user} />}
         />
 
         {/* POSTS */}
         <Route
           path="/posts"
-          element={user ? <Posts /> : <Navigate to="/login" />}
+          element={<Posts />}
         />
         <Route
           path="/posts/:id"
-          element={user ? <PostDetails /> : <Navigate to="/login" />}
+          element={<PostDetails />}
         />
 
         {/* Fallback */}
         <Route
           path="*"
-          element={<Navigate to={user ? "/" : "/login"} />}
+          element={<Navigate to="/" />}
         />
       </Routes>
     </BrowserRouter>

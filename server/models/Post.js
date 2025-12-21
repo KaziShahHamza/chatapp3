@@ -13,13 +13,14 @@ const commentSchema = new mongoose.Schema(
   {
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     content: { type: String, required: true, trim: true },
-    votes: [voteSchema],
+    votes: { type: [voteSchema], default: [] },
   },
   { timestamps: true }
 );
 
-// 🔹 comment vote count
+// comment vote count
 commentSchema.virtual('voteCount').get(function () {
+  if (!Array.isArray(this.votes)) return 0;
   return this.votes.reduce((sum, v) => sum + v.value, 0);
 });
 
@@ -33,15 +34,16 @@ const postSchema = new mongoose.Schema(
       required: true,
     },
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    votes: [voteSchema],
-    comments: [commentSchema],
+    votes: { type: [voteSchema], default: [] },
+    comments: [commentSchema], 
     solved: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
 
-// 🔹 post vote count
+// post vote count
 postSchema.virtual('voteCount').get(function () {
+  if (!Array.isArray(this.votes)) return 0;
   return this.votes.reduce((sum, v) => sum + v.value, 0);
 });
 

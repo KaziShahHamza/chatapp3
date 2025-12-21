@@ -48,3 +48,12 @@ export const voteComment = async (postId, commentId, value, token) => {
     body: JSON.stringify({ value }),
   });
 };
+
+
+export const toggleSolved = async (id, token) => {
+  await fetch(`${API}/${id}/solve`, {
+    method: 'PATCH',
+    headers: authHeader(token),
+  });
+};
+
