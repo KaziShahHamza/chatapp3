@@ -2,6 +2,8 @@
 import express from 'express';
 import Post from '../models/Post.js';
 import auth from '../middlewares/auth.js';
+import authOptional from '../middlewares/authOptional.js';
+
 
 const router = express.Router();
 
@@ -33,24 +35,47 @@ router.get('/', async (req, res) => {
 });
 
 // get single post
-router.get('/:id', async (req, res) => {
-	const post = await Post.findById(req.params.id)
-		.populate('author', 'name')
-		.populate('comments.author', 'name');
-	res.json(post);
+router.get('/:id', authOptional, async (req, res) => {
+  const post = await Post.findById(req.params.id)
+    .populate('author', 'name')
+    .populate('comments.author', 'name');
+
+  if (req.user) {
+    attachMyVote(post, req.user.id);
+    post.comments.forEach(c => attachMyVote(c, req.user.id));
+  }
+
+  res.json(post);
 });
+
 
 // vote post
 router.patch('/:id/vote', auth, async (req, res) => {
-	const { value } = req.body;
-	const post = await Post.findById(req.params.id);
+  const { value } = req.body; // 1 or -1
+  const post = await Post.findById(req.params.id);
 
-	post.votes = post.votes.filter(v => v.user.toString() !== req.user.id);
-	post.votes.push({ user: req.user.id, value });
+  const existing = post.votes.find(
+    v => v.user.toString() === req.user.id
+  );
 
-	await post.save();
-	res.json(post);
+  if (existing) {
+    if (existing.value === value) {
+      // toggle off
+      post.votes = post.votes.filter(
+        v => v.user.toString() !== req.user.id
+      );
+    } else {
+      // switch
+      existing.value = value;
+    }
+  } else {
+    post.votes.push({ user: req.user.id, value });
+  }
+
+  await post.save();
+  res.json(post);
 });
+
 
 // add comment
 router.post('/:id/comments', auth, async (req, res) => {
@@ -65,16 +90,30 @@ router.post('/:id/comments', auth, async (req, res) => {
 
 // vote comment
 router.patch('/:id/comments/:commentId/vote', auth, async (req, res) => {
-	const { value } = req.body;
-	const post = await Post.findById(req.params.id);
-	const comment = post.comments.id(req.params.commentId);
+  const { value } = req.body;
+  const post = await Post.findById(req.params.id);
+  const comment = post.comments.id(req.params.commentId);
 
-	comment.votes = comment.votes.filter(v => v.user.toString() !== req.user.id);
-	comment.votes.push({ user: req.user.id, value });
+  const existing = comment.votes.find(
+    v => v.user.toString() === req.user.id
+  );
 
-	await post.save();
-	res.json(post);
+  if (existing) {
+    if (existing.value === value) {
+      comment.votes = comment.votes.filter(
+        v => v.user.toString() !== req.user.id
+      );
+    } else {
+      existing.value = value;
+    }
+  } else {
+    comment.votes.push({ user: req.user.id, value });
+  }
+
+  await post.save();
+  res.json(post);
 });
+
 
 // mark solved
 router.patch('/:id/solve', auth, async (req, res) => {

@@ -8,6 +8,7 @@ import {
   voteComment,
 } from '../services/postApi';
 import { useAuth } from '../context/AuthContext';
+import VoteButtons from '../components/VoteButtons';
 
 export default function PostDetails() {
   const { id } = useParams();
@@ -49,21 +50,15 @@ export default function PostDetails() {
       <p className="mt-4 text-gray-800">{post.body}</p>
 
       {/* Post votes */}
-      <div className="flex items-center gap-3 mt-4">
-        <button
-          onClick={() => votePost(id, 1, token).then(load)}
-          className="px-2 border rounded"
-        >
-          ⬆
-        </button>
-        <span>{post.voteCount}</span>
-        <button
-          onClick={() => votePost(id, -1, token).then(load)}
-          className="px-2 border rounded"
-        >
-          ⬇
-        </button>
-      </div>
+      <VoteButtons
+        likeCount={post.likeCount}
+        dislikeCount={post.dislikeCount}
+        myVote={post.myVote}
+        disabled={!token}
+        onLike={() => votePost(id, 1, token).then(load)}
+        onDislike={() => votePost(id, -1, token).then(load)}
+      />
+
 
       {/* Comments */}
       <h3 className="text-lg font-semibold mt-8">Comments</h3>
@@ -83,25 +78,15 @@ export default function PostDetails() {
               </Link>
             </p>
 
-            <div className="flex gap-2 mt-2">
-              <button
-                onClick={() =>
-                  voteComment(id, c._id, 1, token).then(load)
-                }
-                className="px-2 border rounded"
-              >
-                ⬆
-              </button>
-              <span>{c.voteCount}</span>
-              <button
-                onClick={() =>
-                  voteComment(id, c._id, -1, token).then(load)
-                }
-                className="px-2 border rounded"
-              >
-                ⬇
-              </button>
-            </div>
+            <VoteButtons
+              likeCount={c.likeCount}
+              dislikeCount={c.dislikeCount}
+              myVote={c.myVote}
+              disabled={!token}
+              onLike={() => voteComment(id, c._id, 1, token).then(load)}
+              onDislike={() => voteComment(id, c._id, -1, token).then(load)}
+            />
+
           </div>
         ))}
       </div>

@@ -18,11 +18,14 @@ const commentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// comment vote count
-commentSchema.virtual('voteCount').get(function () {
-  if (!Array.isArray(this.votes)) return 0;
-  return this.votes.reduce((sum, v) => sum + v.value, 0);
+commentSchema.virtual('likeCount').get(function () {
+  return this.votes.filter(v => v.value === 1).length;
 });
+
+commentSchema.virtual('dislikeCount').get(function () {
+  return this.votes.filter(v => v.value === -1).length;
+});
+
 
 const postSchema = new mongoose.Schema(
   {
@@ -41,11 +44,14 @@ const postSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// post vote count
-postSchema.virtual('voteCount').get(function () {
-  if (!Array.isArray(this.votes)) return 0;
-  return this.votes.reduce((sum, v) => sum + v.value, 0);
+postSchema.virtual('likeCount').get(function () {
+  return this.votes.filter(v => v.value === 1).length;
 });
+
+postSchema.virtual('dislikeCount').get(function () {
+  return this.votes.filter(v => v.value === -1).length;
+});
+
 
 // IMPORTANT
 postSchema.set('toJSON', { virtuals: true });

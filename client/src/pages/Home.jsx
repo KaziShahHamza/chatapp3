@@ -1,11 +1,10 @@
-// client/src/pages/Home.jsx
 import { useEffect, useState } from 'react';
 import { fetchPosts } from '../services/postApi';
-import { useNavigate } from 'react-router-dom';
+import PostCard from '../components/PostCard';
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
-  const navigate = useNavigate();
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     fetchPosts().then(setPosts);
@@ -18,42 +17,14 @@ export default function Home() {
         Latest updates from across the campus
       </p>
 
-      {/* Filters (future ready) */}
-      <div className="flex gap-2 mb-6">
-        {['All', 'Complaints', 'Requests', 'Events'].map((f) => (
-          <button
-            key={f}
-            className="px-3 py-1 border rounded text-sm hover:bg-gray-100"
-          >
-            {f}
-          </button>
-        ))}
-      </div>
-
-      {posts.length === 0 && (
-        <p className="text-gray-500">No posts yet.</p>
-      )}
-
       <div className="space-y-4">
-        {posts.map((post) => (
-          <div
+        {posts.map(post => (
+          <PostCard
             key={post._id}
-            onClick={() => navigate(`/posts/${post._id}`)}
-            className="border rounded p-4 cursor-pointer hover:bg-gray-50"
-          >
-            <h3 className="text-lg font-medium">{post.title}</h3>
-
-            <p className="text-sm text-gray-600">
-              {post.category} • by{' '}
-              <span className="font-medium">
-                {post.author?.name}
-              </span>
-            </p>
-
-            <p className="mt-2 text-gray-800 line-clamp-2">
-              {post.body}
-            </p>
-          </div>
+            post={post}
+            token={token}
+            onUpdate={setPosts}
+          />
         ))}
       </div>
     </div>

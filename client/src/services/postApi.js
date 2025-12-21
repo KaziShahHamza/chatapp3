@@ -26,12 +26,19 @@ export const createPost = async (data, token) => {
 };
 
 export const votePost = async (id, value, token) => {
-  await fetch(`${API}/${id}/vote`, {
+  const res = await fetch(`${API}/${id}/vote`, {
     method: 'PATCH',
     headers: authHeader(token),
     body: JSON.stringify({ value }),
   });
+
+  if (!res.ok) {
+    throw new Error('Vote failed');
+  }
+
+  return res.json(); // IMPORTANT
 };
+
 
 export const commentPost = async (id, content, token) => {
   await fetch(`${API}/${id}/comments`, {
