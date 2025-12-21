@@ -1,17 +1,18 @@
+// client/src/pages/Login.jsx
 import { useState } from 'react';
 import { loginUser } from '../services/auth';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-export default function Login({ setUser }) {
+export default function Login() {
+  const { setUser } = useAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-
     try {
       const user = await loginUser(email, password);
       setUser(user);
@@ -22,27 +23,15 @@ export default function Login({ setUser }) {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-
-      <form onSubmit={handleSubmit}>
-        <input
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button type="submit">Login</button>
-      </form>
-
+    <form onSubmit={handleSubmit}>
+      <input value={email} onChange={(e) => setEmail(e.target.value)} />
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button>Login</button>
       {error && <p>{error}</p>}
-    </div>
+    </form>
   );
 }

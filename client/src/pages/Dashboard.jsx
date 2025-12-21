@@ -1,28 +1,23 @@
-import { logout } from '../services/auth';
-import { useNavigate } from 'react-router-dom';
-
-export default function Dashboard({ user, setUser }) {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    setUser(null);
-    navigate('/login');
-  };
-
+// client/src/pages/Dashboard.jsx
+export default function Dashboard({ user }) {
   return (
     <div>
       <h2>Dashboard</h2>
 
-      <p>Welcome, {user.name}</p>
+      <p>Welcome back, <strong>{user.name}</strong></p>
 
-      <button onClick={() => navigate('/chat')}>
-        Go to Chat
-      </button>
+      <ul>
+        <li>My Posts</li>
+        <li>My Comments</li>
+        <li>My Requests</li>
+        <li>Saved Items</li>
+      </ul>
 
-      <button onClick={handleLogout}>
-        Logout
-      </button>
+      {/* Later:
+        - fetch user posts
+        - stats
+        - notifications
+      */}
     </div>
   );
 }

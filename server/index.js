@@ -6,6 +6,7 @@ import cors from 'cors';
 import connectDB from './config/db.js';
 import messageRoutes from './routes/message.routes.js';
 import authRouter from './routes/auth.routes.js';
+import postRoutes from './routes/post.routes.js';
 import { Server } from 'socket.io';
 import Message from './models/Message.js';
 
@@ -16,6 +17,8 @@ app.use(express.json());
 
 app.use('/api', authRouter);
 app.use('/api/messages', messageRoutes);
+app.use('/api/posts', postRoutes);
+
 
 
 const server = http.createServer(app);
@@ -37,14 +40,14 @@ socket.on('send_message', async (data) => {
 
     // VALIDATION: Don't try to save if userId is missing
     if (!userId || !text) {
-      console.warn("⚠️ Received incomplete message data:", data);
+      console.warn("Received incomplete message data:", data);
       return; 
     }
 
     const message = await Message.create({ userId, username, text });
     io.emit('receive_message', message);
   } catch (err) {
-    console.error('❌ MongoDB Save Error:', err.message);
+    console.error('MongoDB Save Error:', err.message);
   }
 });
 
@@ -54,7 +57,7 @@ socket.on('send_message', async (data) => {
   });
 
   socket.on('disconnect', () => {
-    console.log('👤 User disconnected');
+    console.log('User disconnected');
   });
 });
 
@@ -64,9 +67,9 @@ const PORT = process.env.PORT || 5000;
 (async () => {
     try {
         await connectDB();
-        server.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+        server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
     } catch (err) {
-        console.error('❌ Failed to start server:', err);
+        console.error('Failed to start server:', err);
         process.exit(1);
     }
 })();
