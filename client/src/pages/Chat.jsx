@@ -10,7 +10,7 @@ import MessageList from '../components/MessageList';
 import MessageInput from '../components/MessageInput';
 
 const Chat = ({user}) => {
-  console.log("Current User Object:", user); // Check your browser console!
+  console.log("Current User  Object:", user); // Check your browser console!
 
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
