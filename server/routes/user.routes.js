@@ -1,3 +1,4 @@
+// server/routes/user.routes.js
 import express from 'express';
 import User from '../models/User.js';
 import Post from '../models/Post.js';
@@ -16,8 +17,9 @@ router.get('/:id', async (req, res) => {
 
     // user's posts
     const posts = await Post.find({ author: userId })
-      .select('title category createdAt')
+      .populate('author', 'name')
       .sort({ createdAt: -1 });
+
 
     // comments by user (SAFE way)
     const postsWithComments = await Post.find(

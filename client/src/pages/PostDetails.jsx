@@ -9,6 +9,7 @@ import {
 } from '../services/postApi';
 import { useAuth } from '../context/AuthContext';
 import VoteButtons from '../components/VoteButtons';
+import { timeAgo } from '../utils/time';
 
 export default function PostDetails() {
   const { id } = useParams();
@@ -29,25 +30,35 @@ export default function PostDetails() {
   if (!post) return <p className="p-4">Loading...</p>;
 
   return (
-    <div className="max-w-3xl mx-auto p-4">
-      <h2 className="text-2xl font-semibold">
-        {post.title}
-        {post.solved && (
-          <span className="ml-2 text-green-600 text-sm">(Solved)</span>
-        )}
-      </h2>
+    <div className="max-w-3xl mx-auto p-4 space-y-6">
+      {/* Post header */}
+      <div className="space-y-1">
+        <h2 className="text-2xl font-semibold flex items-center gap-2">
+          {post.title}
+          {post.solved && (
+            <span className="text-xs text-green-600 border px-2 py-0.5 rounded">
+              Solved
+            </span>
+          )}
+        </h2>
 
-      <div className="text-sm text-gray-600 mt-1">
-        <span className="capitalize">{post.category}</span> • by{' '}
-        <Link
-          to={`/profile/${post.author._id}`}
-          className="font-medium hover:underline"
-        >
-          {post.author.name}
-        </Link>
+        <p className="text-sm text-gray-600">
+          <span className="capitalize">{post.category}</span> •{' '}
+          <span className="font-medium">{post.department}</span> •{' '}
+          <Link
+            to={`/profile/${post.author._id}`}
+            className="hover:underline"
+          >
+            {post.author.name}
+          </Link>{' '}
+          • {timeAgo(post.createdAt)}
+        </p>
       </div>
 
-      <p className="mt-4 text-gray-800">{post.body}</p>
+      {/* Post body */}
+      <p className="text-gray-800 leading-relaxed">
+        {post.body}
+      </p>
 
       {/* Post votes */}
       <VoteButtons
@@ -59,23 +70,24 @@ export default function PostDetails() {
         onDislike={() => votePost(id, -1, token).then(load)}
       />
 
-
       {/* Comments */}
-      <h3 className="text-lg font-semibold mt-8">Comments</h3>
+      <div className="pt-6 border-t space-y-4">
+        <h3 className="text-lg font-semibold">
+          Comments ({post.comments.length})
+        </h3>
 
-      <div className="space-y-4 mt-4">
         {post.comments.map((c) => (
-          <div key={c._id} className="border-t pt-3">
-            <p>{c.content}</p>
+          <div key={c._id} className="space-y-1 border rounded p-3">
+            <p className="text-gray-800">{c.content}</p>
 
-            <p className="text-sm text-gray-600">
-              by{' '}
+            <p className="text-xs text-gray-500">
               <Link
                 to={`/profile/${c.author._id}`}
-                className="hover:underline"
+                className="hover:underline font-medium"
               >
                 {c.author?.name}
-              </Link>
+              </Link>{' '}
+              • {timeAgo(c.createdAt)}
             </p>
 
             <VoteButtons
@@ -86,33 +98,34 @@ export default function PostDetails() {
               onLike={() => voteComment(id, c._id, 1, token).then(load)}
               onDislike={() => voteComment(id, c._id, -1, token).then(load)}
             />
-
           </div>
         ))}
       </div>
 
       {/* Add comment */}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!comment.trim()) return;
-          commentPost(id, comment, token).then(() => {
-            setComment('');
-            load();
-          });
-        }}
-        className="mt-6"
-      >
-        <input
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          placeholder="Write a comment"
-          className="w-full border rounded px-3 py-2"
-        />
-        <button className="mt-2 px-4 py-1 border rounded">
-          Add Comment
-        </button>
-      </form>
+      {token && (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (!comment.trim()) return;
+            commentPost(id, comment, token).then(() => {
+              setComment('');
+              load();
+            });
+          }}
+          className="pt-4 space-y-2"
+        >
+          <input
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder="Write a comment"
+            className="w-full border rounded px-3 py-2"
+          />
+          <button className="border rounded px-4 py-1 text-sm">
+            Add Comment
+          </button>
+        </form>
+      )}
     </div>
   );
 }

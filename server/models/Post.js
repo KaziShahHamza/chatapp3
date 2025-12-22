@@ -29,20 +29,40 @@ commentSchema.virtual('dislikeCount').get(function () {
 
 const postSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true, trim: true },
-    body: { type: String, required: true },
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 40, // ✅ title limit
+    },
+    body: {
+      type: String,
+      required: true,
+      validate: {
+        validator: function (v) {
+          return v.trim().split(/\s+/).length <= 100;
+        },
+        message: 'Post body cannot exceed 100 words',
+      },
+    },
     category: {
       type: String,
-      enum: ['academic', 'hostel', 'administration', 'facilities', 'general'],
+      enum: ['academic', 'hostel', 'faculty', 'transport', 'general'],
+      required: true,
+    },
+    department: {
+      type: String,
+      enum: ['CSE & CSIT', 'GDM', 'FDT', 'BBA', 'AMMT', 'ENGLISH'],
       required: true,
     },
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     votes: { type: [voteSchema], default: [] },
-    comments: [commentSchema], 
+    comments: [commentSchema],
     solved: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
+
 
 postSchema.virtual('likeCount').get(function () {
   return this.votes.filter(v => v.value === 1).length;

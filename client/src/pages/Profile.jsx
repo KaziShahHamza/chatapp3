@@ -1,66 +1,64 @@
 // client/src/pages/Profile.jsx
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import PostCard from '../components/PostCard';
 
 export default function Profile() {
   const { id } = useParams();
   const [data, setData] = useState(null);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/users/${id}`)
       .then((res) => res.json())
-      .then(setData);
+      .then(setData)
+      .catch(() => setData({ message: 'Failed to load profile' }));
   }, [id]);
 
   if (!data) return <p className="p-4">Loading...</p>;
 
-  if (!data || data.message) {
-    return <p className="p-4 text-red-500">Failed to load profile</p>;
+  if (data.message) {
+    return <p className="p-4 text-red-500">{data.message}</p>;
   }
 
-  const { user, posts = [], comments = [] } = data;
-  console.log(data);
+  const { user, posts = [] } = data;
 
   return (
-    <div className="max-w-3xl mx-auto p-4">
-      <h2 className="text-2xl font-semibold">{user.name}</h2>
-      <p className="text-sm text-gray-500">
-        Joined {new Date(user.createdAt).toDateString()}
-      </p>
+    <div className="max-w-4xl mx-auto p-4 space-y-6">
+      {/* USER HEADER */}
+      <div>
+        <h2 className="text-2xl font-semibold"> Username: {user.name}</h2>
+      </div>
 
-      {/* POSTS */}
-      <section className="mt-6">
-        <h3 className="font-medium mb-2">Posts</h3>
+      {/* USER POSTS / COMPLAINTS / EVENTS */}
+      <section className="space-y-4">
+        <h3 className="text-lg font-medium">
+          Posts & Complaints
+        </h3>
+
         {posts.length === 0 && (
-          <p className="text-sm text-gray-500">No posts yet.</p>
-        )}
-        {posts.map((p) => (
-          <Link
-            key={p._id}
-            to={`/posts/${p._id}`}
-            className="block border rounded p-2 mb-2 hover:bg-gray-50"
-          >
-            <p className="font-medium">{p.title}</p>
-            <small className="text-gray-500">{p.category}</small>
-          </Link>
-        ))}
-      </section>
-
-      {/* COMMENTS */}
-      <section className="mt-6">
-        <h3 className="font-medium mb-2">Comments</h3>
-        {comments.length === 0 && (
-          <p className="text-sm text-gray-500">No comments yet.</p>
-        )}
-        {comments.map((c, i) => (
-          <p key={i} className="text-sm border-b py-2">
-            {c.content}
+          <p className="text-sm text-gray-500">
+            No posts yet.
           </p>
+        )}
+
+        {posts.map((post) => (
+          <PostCard
+            key={post._id}
+            post={post}
+            token={token}
+            onUpdate={(updater) =>
+              setData((prev) => ({
+                ...prev,
+                posts: updater(prev.posts),
+              }))
+            }
+          />
         ))}
       </section>
 
-      {/* EVENTS & REQUESTS (future-ready) */}
-      <section className="mt-6 text-gray-500 text-sm">
+      {/* FUTURE SECTIONS */}
+      <section className="text-sm text-gray-400 pt-4 border-t">
         Events and requests will appear here.
       </section>
     </div>

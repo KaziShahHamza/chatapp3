@@ -1,3 +1,4 @@
+// client/src/pages/Home.jsx
 import { useEffect, useState } from 'react';
 import { fetchPosts } from '../services/postApi';
 import PostCard from '../components/PostCard';

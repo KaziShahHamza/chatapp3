@@ -1,7 +1,9 @@
+// client/src/components/PostCard.jsx
 import VoteButtons from './VoteButtons';
 import { votePost } from '../services/postApi';
 import { optimisticVote } from '../hooks/useOptimisticVote';
 import { useNavigate } from 'react-router-dom';
+import { timeAgo } from '../utils/time';
 
 export default function PostCard({ post, token, onUpdate }) {
   const navigate = useNavigate();
@@ -40,15 +42,16 @@ return (
     >
         <div className="flex gap-4">
 
-
             <div>
-                <h3 className="text-lg font-medium">{post.title}</h3>
                 <p className="text-sm text-gray-600">
-                    {post.category} • by {post.author?.name}
+                <span className="capitalize">{post.category}</span> •{' '}
+                <span className="font-medium">{post.department}</span> •{' '}
+                {post.author?.name} •{' '}
+                <span>{timeAgo(post.createdAt)}</span>
                 </p>
 
                 <p className="mt-2 text-gray-800 line-clamp-2">
-                    {post.body.substring(0, 50)}
+                    {post.body.substring(0, 30)}
                 </p>
 
                 <div className="mt-3 text-sm text-gray-500 flex gap-4 mx-auto items-center">
