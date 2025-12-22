@@ -28,7 +28,7 @@ export default function RequestCard({ request, token, onUpdate, label }) {
   return (
     <div
       onClick={() => navigate(`/requests/${request._id}`)}
-      className="border rounded p-4 hover:bg-gray-50 cursor-pointer flex flex-col h-full transition"
+      className="border rounded p-4 hover:bg-gray-50 cursor-pointer flex flex-col max-h-full transition"
     >
       {label && (
         <span className="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded mb-2 w-max">

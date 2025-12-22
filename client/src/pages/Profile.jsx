@@ -22,15 +22,16 @@ export default function Profile() {
   const { user, posts = [], requests = [], events = [] } = data;
 
   return (
-    <div className="max-w-4xl mx-auto p-4 space-y-6">
+    <div className="max-w-4xl mx-auto p-6 space-y-8 bg-white rounded shadow-sm">
       {/* USER HEADER */}
-      <div>
-        <h2 className="text-2xl font-semibold">Username: {user.name}</h2>
+      <div className="border-b pb-4">
+        <h2 className="text-2xl font-semibold">{user.name}</h2>
+        <p className="text-sm text-gray-500">Profile overview</p>
       </div>
 
       {/* USER POSTS */}
       <section className="space-y-4">
-        <h3 className="text-lg font-medium">Posts & Complaints</h3>
+        <h3 className="text-lg font-medium border-b pb-2">Posts & Complaints</h3>
         {posts.length === 0 && <p className="text-sm text-gray-500">No posts yet.</p>}
         {posts.map(post => (
           <PostCard
@@ -44,7 +45,7 @@ export default function Profile() {
 
       {/* USER REQUESTS */}
       <section className="space-y-4 pt-6 border-t">
-        <h3 className="text-lg font-medium">Requests</h3>
+        <h3 className="text-lg font-medium border-b pb-2">Requests</h3>
         {requests.length === 0 && <p className="text-sm text-gray-500">No requests yet.</p>}
         {requests.map(request => (
           <RequestCard
@@ -58,7 +59,7 @@ export default function Profile() {
 
       {/* USER EVENTS */}
       <section className="space-y-4 pt-6 border-t">
-        <h3 className="text-lg font-medium">Events</h3>
+        <h3 className="text-lg font-medium border-b pb-2">Events</h3>
         {events.length === 0 && <p className="text-sm text-gray-500">No events yet.</p>}
         {events.map(event => (
           <EventCard
@@ -72,3 +73,4 @@ export default function Profile() {
     </div>
   );
 }
+

@@ -73,7 +73,8 @@ export default function Home() {
       <h2 className="text-2xl font-semibold mb-2">Campus Feed</h2>
       <p className="text-gray-600 mb-4">Latest updates from across the campus</p>
 
-      {/* Category filter */}
+      <div className='flex flex-col md:flex-row gap-4 md:items-center md:justify-between'>
+    {/* Category filter */}
       <div className="flex gap-2 mb-4 flex-wrap">
         {['all', 'posts', 'requests', 'events'].map(f => (
           <button
@@ -86,7 +87,6 @@ export default function Home() {
           </button>
         ))}
       </div>
-
       {/* Time filter */}
       <div className="flex gap-2 mb-4 flex-wrap">
         {Object.entries(TIME_FILTERS).map(([key, label]) => (
@@ -100,6 +100,9 @@ export default function Home() {
           </button>
         ))}
       </div>
+
+      </div>
+  
 
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

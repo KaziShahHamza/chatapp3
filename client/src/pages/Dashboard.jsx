@@ -16,7 +16,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     setLoading(true);
-
     Promise.all([fetchPosts(), fetchRequests(), fetchEvents()])
       .then(([allPosts, allRequests, allEvents]) => {
         setPosts(allPosts.filter(p => p.author?._id === user.id));
@@ -29,23 +28,23 @@ export default function Dashboard() {
   if (loading) return <p className="p-4">Loading...</p>;
 
   return (
-    <div className="max-w-4xl mx-auto p-4 space-y-6">
-      {/* USER HEADER */}
-      <div>
+    <div className="max-w-4xl mx-auto p-6 space-y-8 bg-white rounded shadow-sm">
+      {/* HEADER */}
+      <div className="border-b pb-4">
         <h2 className="text-2xl font-semibold">Dashboard</h2>
         <p className="text-sm text-gray-500">Welcome back, {user.name}</p>
       </div>
 
       {/* SUMMARY */}
       <div className="flex gap-6 text-sm text-gray-600">
-        <div>Posts: {posts.length}</div>
-        <div>Requests: {requests.length}</div>
-        <div>Events: {events.length}</div>
+        <div className="bg-gray-100 rounded px-3 py-1">Posts: {posts.length}</div>
+        <div className="bg-gray-100 rounded px-3 py-1">Requests: {requests.length}</div>
+        <div className="bg-gray-100 rounded px-3 py-1">Events: {events.length}</div>
       </div>
 
       {/* USER POSTS */}
       <section className="space-y-4">
-        <h3 className="text-lg font-medium">My Posts & Complaints</h3>
+        <h3 className="text-lg font-medium border-b pb-2">My Posts & Complaints</h3>
         {posts.length === 0 && (
           <p className="text-sm text-gray-500">You haven’t posted anything yet.</p>
         )}
@@ -56,7 +55,7 @@ export default function Dashboard() {
 
       {/* USER REQUESTS */}
       <section className="space-y-4 pt-6 border-t">
-        <h3 className="text-lg font-medium">My Requests</h3>
+        <h3 className="text-lg font-medium border-b pb-2">My Requests</h3>
         {requests.length === 0 && (
           <p className="text-sm text-gray-500">You haven’t created any requests yet.</p>
         )}
@@ -67,7 +66,7 @@ export default function Dashboard() {
 
       {/* USER EVENTS */}
       <section className="space-y-4 pt-6 border-t">
-        <h3 className="text-lg font-medium">My Events</h3>
+        <h3 className="text-lg font-medium border-b pb-2">My Events</h3>
         {events.length === 0 && (
           <p className="text-sm text-gray-500">You haven’t created any events yet.</p>
         )}
@@ -78,3 +77,4 @@ export default function Dashboard() {
     </div>
   );
 }
+

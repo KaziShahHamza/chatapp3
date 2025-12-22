@@ -28,7 +28,7 @@ export default function PostCard({ post, token, onUpdate, label }) {
   return (
     <div
       onClick={() => navigate(`/posts/${post._id}`)}
-      className="border rounded p-4 hover:bg-gray-50 cursor-pointer flex flex-col h-full transition"
+      className="border rounded p-4 hover:bg-gray-50 cursor-pointer flex flex-col max-h-full transition"
     >
       {/* Label */}
       {label && (
