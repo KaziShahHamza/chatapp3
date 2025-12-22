@@ -1,3 +1,4 @@
+// client/src/components/Navbar.jsx
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../services/auth';
 
@@ -11,19 +12,9 @@ export default function Navbar({ user, setUser }) {
   };
 
   return (
-    <nav
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 24,
-        padding: 16,
-        borderBottom: '1px solid #ddd',
-      }}
-    >
+    <nav style={{ display: 'flex', alignItems: 'center', gap: 24, padding: 16, borderBottom: '1px solid #ddd' }}>
       {/* Left: Brand */}
-      <Link to="/" style={{ fontWeight: 'bold', fontSize: 18 }}>
-        CampusBoard
-      </Link>
+      <Link to="/" style={{ fontWeight: 'bold', fontSize: 18 }}>CampusBoard</Link>
 
       {/* Center: Navigation */}
       <div style={{ display: 'flex', gap: 16 }}>
@@ -34,18 +25,11 @@ export default function Navbar({ user, setUser }) {
       </div>
 
       {/* Right: User */}
-      <div
-        style={{
-          marginLeft: 'auto',
-          display: 'flex',
-          gap: 12,
-          alignItems: 'center',
-        }}
-      >
+      <div style={{ marginLeft: 'auto', display: 'flex', gap: 12, alignItems: 'center' }}>
         <Link to="/chat">Live Chat</Link>
-        <span>Welcome, {user?.name}</span>
-        <Link to="/dashboard">Dashboard</Link>
-        <button onClick={handleLogout}>Logout</button>
+        {user && <span>Welcome, {user.name}</span>}
+        {user && <Link to="/dashboard">Dashboard</Link>}
+        {user ? <button onClick={handleLogout}>Logout</button> : <Link to="/login">Login</Link>}
       </div>
     </nav>
   );

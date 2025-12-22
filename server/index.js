@@ -11,11 +11,12 @@ import { Server } from 'socket.io';
 import Message from './models/Message.js';
 import userRoutes from './routes/user.routes.js';
 import requestRoutes from './routes/request.routes.js';
-
+import eventRoutes from './routes/event.routes.js';
 
 const app = express();
 
-app.use(cors({ origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173' }));
+app.use(cors({ origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',   
+  credentials: true, }));
 app.use(express.json());
 
 app.use('/api', authRouter);
@@ -23,6 +24,7 @@ app.use('/api/messages', messageRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/requests', requestRoutes);
+app.use('/api/events', eventRoutes);
 
 
 const server = http.createServer(app);
