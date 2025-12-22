@@ -14,6 +14,8 @@ const MessageList = ({ messages, currentUser, typingUser }) => {
 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      if (!Array.isArray(messages)) return null;
+
       {messages.length === 0 ? (
         <div className="h-full flex flex-col items-center justify-center text-slate-400">
           <p className="text-lg">No messages yet</p>
@@ -21,7 +23,8 @@ const MessageList = ({ messages, currentUser, typingUser }) => {
         </div>
       ) : (
         messages.map((msg, idx) => {
-          const isMe = msg.userId === (currentUser.id || currentUser._id);
+          const currentUserId = currentUser?._id || currentUser?.id;
+          const isMe = currentUserId && msg.userId === currentUserId;
           return (
             <div key={msg._id || idx} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
               <div className={`max-w-[80%] sm:max-w-[70%] group`}>

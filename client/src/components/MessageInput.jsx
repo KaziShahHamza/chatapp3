@@ -1,50 +1,57 @@
 // client/src/components/MessageInput.jsx
-import React, { useState } from 'react';
-import { Send } from 'lucide-react';
+import { useState } from 'react';
+import { Send, Lock } from 'lucide-react';
 import socket from '../services/socket';
-import { getStoredUser } from '../services/auth';
+import { useAuth } from '../context/AuthContext';
 
-const MessageInput = ({ onSendMessage }) => {
+export default function MessageInput({ onSendMessage, disabled }) {
+  const { user } = useAuth();
   const [text, setText] = useState('');
-  const user = getStoredUser();
 
-  const handleSubmit = (e) => {
+  const submit = (e) => {
     e.preventDefault();
-    if (text.trim()) {
-      onSendMessage(text);
-      setText('');
-    }
+    if (!text.trim() || disabled) return;
+    onSendMessage(text);
+    setText('');
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      handleSubmit(e);
-    } else {
-      // Emit typing event
-      socket.emit('typing', user.name);
-    }
+  const handleTyping = () => {
+    if (user) socket.emit('typing', user.name);
   };
 
   return (
-    <div className="p-4 bg-white border-t border-slate-200">
-      <form onSubmit={handleSubmit} className="max-w-4xl mx-auto flex gap-2">
+    <div className="p-4 bg-white border-t">
+      <form onSubmit={submit} className="flex gap-2 relative group">
         <input
-          type="text"
+          disabled={disabled}
           value={text}
           onChange={(e) => setText(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Type a message..."
-          className="flex-1 bg-slate-100 border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all text-slate-700"
+          onKeyDown={handleTyping}
+          placeholder={
+            disabled ? 'Login to participate in chat' : 'Type a message...'
+          }
+          className={`flex-1 rounded-xl px-4 py-3 text-sm
+            ${disabled
+              ? 'bg-slate-200 cursor-not-allowed'
+              : 'bg-slate-100 focus:ring-2 focus:ring-blue-500'
+            }`}
         />
+
         <button
-          disabled={!text.trim()}
-          className="bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 text-white p-3 rounded-xl transition-all shadow-md active:scale-95 flex items-center justify-center"
+          disabled={disabled || !text.trim()}
+          className="bg-blue-600 disabled:bg-slate-300 text-white p-3 rounded-xl"
         >
-          <Send size={20} />
+          {disabled ? <Lock size={18} /> : <Send size={18} />}
         </button>
+
+        {disabled && (
+          <div className="absolute -top-9 left-1/2 -translate-x-1/2
+            bg-black text-white text-xs px-3 py-1 rounded opacity-0
+            group-hover:opacity-100 transition">
+            Login to chat
+          </div>
+        )}
       </form>
     </div>
   );
-};
-
-export default MessageInput;
+}

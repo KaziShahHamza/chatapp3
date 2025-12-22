@@ -87,7 +87,7 @@ export default function Navbar() {
             className="flex items-center gap-1 hover:underline"
           >
             <LogIn size={16} />
-            Login
+            Login/SignUp
           </Link>
         )}
       </div>
