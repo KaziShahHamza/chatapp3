@@ -4,6 +4,7 @@ import { fetchEvent, voteEvent, commentEvent, voteEventComment } from '../servic
 import { useAuth } from '../context/AuthContext';
 import VoteButtons from '../components/VoteButtons';
 import { timeAgo } from '../utils/time';
+import Tooltip from '../components/Tooltip';
 
 export default function EventDetails() {
   const { id } = useParams();
@@ -65,7 +66,7 @@ export default function EventDetails() {
         ))}
       </div>
 
-      {token && (
+
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -83,9 +84,20 @@ export default function EventDetails() {
             placeholder="Write a comment"
             className="w-full border rounded px-3 py-2"
           />
-          <button className="border rounded px-4 py-1 text-sm">Add Comment</button>
+
+          <Tooltip disabled={!token} text="Login to comment">
+            <button
+              disabled={!token}
+              className={`border rounded px-4 py-1 text-sm
+                ${!token ? 'opacity-50 cursor-not-allowed' : ''}
+              `}
+            >
+              Add Comment
+            </button>
+          </Tooltip>
+
         </form>
-      )}
+
     </div>
   );
 }

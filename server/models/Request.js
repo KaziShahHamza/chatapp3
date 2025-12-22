@@ -44,6 +44,11 @@ const requestSchema = new mongoose.Schema(
       enum: ['courses', 'syllabus', 'exam', 'general'],
       required: true,
     },
+    department: {
+      type: String,
+      enum: ['CSE & CSIT', 'GDM', 'FDT', 'BBA', 'AMMT', 'ENGLISH'],
+      required: true, // ✅ important
+    },
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
@@ -61,6 +66,7 @@ const requestSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 
 requestSchema.virtual('likeCount').get(function () {
   return this.votes.filter(v => v.value === 1).length;

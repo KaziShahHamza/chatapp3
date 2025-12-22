@@ -10,6 +10,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import VoteButtons from '../components/VoteButtons';
 import { timeAgo } from '../utils/time';
+import Tooltip from '../components/Tooltip';
 
 export default function PostDetails() {
   const { id } = useParams();
@@ -103,29 +104,37 @@ export default function PostDetails() {
       </div>
 
       {/* Add comment */}
-      {token && (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (!comment.trim()) return;
-            commentPost(id, comment, token).then(() => {
-              setComment('');
-              load();
-            });
-          }}
-          className="pt-4 space-y-2"
-        >
-          <input
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            placeholder="Write a comment"
-            className="w-full border rounded px-3 py-2"
-          />
-          <button className="border rounded px-4 py-1 text-sm">
-            Add Comment
-          </button>
-        </form>
-      )}
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (!token || !comment.trim()) return;
+
+        commentPost(id, comment, token).then(() => {
+          setComment('');
+          load();
+        });
+      }}
+      className="pt-4 space-y-2"
+    >
+      <input
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        placeholder={'Write a comment'}
+        className={`w-full border rounded px-3 py-2`}
+      />
+
+    <Tooltip disabled={!token} text="Login to comment">
+      <button
+        disabled={!token}
+        className={`border rounded px-4 py-1 text-sm
+          ${!token ? 'opacity-50 cursor-not-allowed' : ''}
+        `}
+      >
+        Add Comment
+      </button>
+    </Tooltip>
+    </form>
+
     </div>
   );
 }

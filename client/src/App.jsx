@@ -23,7 +23,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Navbar user={user} setUser={setUser} />
+      <Navbar />
 
       <Routes>
         {/* Public */}

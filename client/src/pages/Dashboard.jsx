@@ -41,7 +41,6 @@ export default function Dashboard() {
         <div>Posts: {posts.length}</div>
         <div>Requests: {requests.length}</div>
         <div>Events: {events.length}</div>
-        <div>Comments: —</div>
       </div>
 
       {/* USER POSTS */}

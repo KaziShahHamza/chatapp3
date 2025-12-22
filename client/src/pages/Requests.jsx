@@ -23,14 +23,14 @@ export default function Requests() {
         </p>
       </div>
 
-      {token && (
+
         <RequestForm
           token={token}
           onRequestCreated={(newRequest) =>
             setRequests((prev) => [newRequest, ...prev])
           }
         />
-      )}
+
 
       <div className="space-y-4">
         {requests.map((request) => (

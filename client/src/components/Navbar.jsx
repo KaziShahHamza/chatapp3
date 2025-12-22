@@ -1,8 +1,16 @@
-// client/src/components/Navbar.jsx
 import { Link, useNavigate } from 'react-router-dom';
+import {
+  MessageSquare,
+  User,
+  LayoutDashboard,
+  LogIn,
+  LogOut,
+} from 'lucide-react';
 import { logout } from '../services/auth';
+import { useAuth } from '../context/AuthContext';
 
-export default function Navbar({ user, setUser }) {
+export default function Navbar() {
+  const { user, setUser } = useAuth(); 
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -12,24 +20,76 @@ export default function Navbar({ user, setUser }) {
   };
 
   return (
-    <nav style={{ display: 'flex', alignItems: 'center', gap: 24, padding: 16, borderBottom: '1px solid #ddd' }}>
+    <nav className="border-b px-6 py-3 flex items-center">
       {/* Left: Brand */}
-      <Link to="/" style={{ fontWeight: 'bold', fontSize: 18 }}>CampusBoard</Link>
+      <Link
+        to="/"
+        className="font-semibold text-lg tracking-tight"
+      >
+        CampusBoard
+      </Link>
 
       {/* Center: Navigation */}
-      <div style={{ display: 'flex', gap: 16 }}>
-        <Link to="/">Home</Link>
-        <Link to="/posts">Complaints</Link>
-        <Link to="/requests">Requests</Link>
-        <Link to="/events">Events</Link>
+      <div className="absolute left-1/2 -translate-x-1/2 flex gap-6 text-lg">
+        <Link to="/" className="hover:underline">
+          Home
+        </Link>
+        <Link to="/posts" className="hover:underline">
+          Complaints
+        </Link>
+        <Link to="/requests" className="hover:underline">
+          Requests
+        </Link>
+        <Link to="/events" className="hover:underline">
+          Events
+        </Link>
       </div>
 
-      {/* Right: User */}
-      <div style={{ marginLeft: 'auto', display: 'flex', gap: 12, alignItems: 'center' }}>
-        <Link to="/chat">Live Chat</Link>
-        {user && <span>Welcome, {user.name}</span>}
-        {user && <Link to="/dashboard">Dashboard</Link>}
-        {user ? <button onClick={handleLogout}>Logout</button> : <Link to="/login">Login</Link>}
+      {/* Right: Actions */}
+      <div className="ml-auto flex items-center gap-4 text-sm">
+        {/* Live Chat – emphasized */}
+        <Link
+          to="/chat"
+          className="flex items-center gap-1 border rounded px-3 py-1 hover:bg-gray-50"
+        >
+          <MessageSquare size={16} />
+          Live Chat
+        </Link>
+
+        {user ? (
+          <>
+            {/* User name */}
+            <div className="flex items-center gap-1 text-gray-700">
+              <span>Welcome, {user.name}</span>
+            </div>
+
+            {/* Dashboard */}
+            <Link
+              to="/dashboard"
+              className="flex items-center gap-1 hover:underline"
+            >
+              <User size={16} />
+              Dashboard
+            </Link>
+
+            {/* Logout */}
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1 text-red-600 hover:underline cursor-pointer"
+            >
+              <LogOut size={16} />
+              Logout
+            </button>
+          </>
+        ) : (
+          <Link
+            to="/login"
+            className="flex items-center gap-1 hover:underline"
+          >
+            <LogIn size={16} />
+            Login
+          </Link>
+        )}
       </div>
     </nav>
   );

@@ -36,8 +36,10 @@ export default function RequestCard({ request, token, onUpdate }) {
       className="border rounded p-4 hover:bg-gray-50 cursor-pointer"
     >
       <div>
+        <h3 className="text-lg font-semibold">{request.title}</h3>
         <p className="text-sm text-gray-600">
           <span className="capitalize">{request.category}</span> •{' '}
+          <span className="capitalize">{request.department}</span> •{' '}
           {request.author?.name} • <span>{timeAgo(request.createdAt)}</span>
         </p>
 

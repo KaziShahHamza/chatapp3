@@ -1,3 +1,4 @@
+// client/src/components/MessageList.jsx
 import React, { useEffect, useRef } from 'react';
 
 const MessageList = ({ messages, currentUser, typingUser }) => {

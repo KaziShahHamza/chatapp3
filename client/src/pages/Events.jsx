@@ -21,14 +21,14 @@ export default function Events() {
         </p>
       </div>
 
-      {token && (
+   
         <EventForm
           token={token}
           onEventCreated={(newEvent) =>
             setEvents((prev) => [newEvent, ...prev])
           }
         />
-      )}
+      
 
       <div className="space-y-4">
         {events.map((event) => (

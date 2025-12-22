@@ -35,70 +35,86 @@ export default function EventForm({ token, onEventCreated }) {
   };
 
   return (
-    <form onSubmit={submit} className="space-y-4 border rounded p-4">
-      {error && <p className="text-sm text-red-600">{error}</p>}
+    <>
+      {!token && (
+        <p className="text-sm text-red-500 ">
+          Login to Create an event and interact with others.
+        </p>
+      )}
 
-      <div className="space-y-1">
-        <label className="text-sm font-medium">Title</label>
-        <input
-          className="w-full border rounded px-3 py-2"
-          value={form.title}
-          onChange={(e) => setForm({ ...form, title: e.target.value })}
-          placeholder="Event title"
-        />
-      </div>
+      <form onSubmit={submit} className="space-y-4 border rounded p-4">
+        {error && <p className="text-sm text-red-600">{error}</p>}
 
-      <div className="space-y-1">
-        <label className="text-sm font-medium">Description</label>
-        <textarea
-          className="w-full border rounded px-3 py-2"
-          rows={4}
-          value={form.description}
-          onChange={(e) => setForm({ ...form, description: e.target.value })}
-          placeholder="Event description"
-        />
-      </div>
-
-      <div className="grid grid-cols-2 gap-3">
         <div className="space-y-1">
-          <label className="text-sm font-medium">Start At</label>
+          <label className="text-sm font-medium">Title</label>
           <input
-            type="datetime-local"
             className="w-full border rounded px-3 py-2"
-            value={form.startAt}
-            onChange={(e) => setForm({ ...form, startAt: e.target.value })}
+            value={form.title}
+            onChange={(e) => setForm({ ...form, title: e.target.value })}
+            placeholder="Event title"
           />
         </div>
 
         <div className="space-y-1">
-          <label className="text-sm font-medium">Place</label>
-          <input
+          <label className="text-sm font-medium">Description</label>
+          <textarea
             className="w-full border rounded px-3 py-2"
-            value={form.place}
-            onChange={(e) => setForm({ ...form, place: e.target.value })}
-            placeholder="Event location"
+            rows={4}
+            value={form.description}
+            onChange={(e) => setForm({ ...form, description: e.target.value })}
+            placeholder="Event description"
           />
         </div>
-      </div>
 
-      <div className="space-y-1">
-        <label className="text-sm font-medium">Department</label>
-        <select
-          className="w-full border rounded px-3 py-2"
-          value={form.department}
-          onChange={(e) => setForm({ ...form, department: e.target.value })}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1">
+            <label className="text-sm font-medium">Start At</label>
+            <input
+              type="datetime-local"
+              className="w-full border rounded px-3 py-2"
+              value={form.startAt}
+              onChange={(e) => setForm({ ...form, startAt: e.target.value })}
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-sm font-medium">Place</label>
+            <input
+              className="w-full border rounded px-3 py-2"
+              value={form.place}
+              onChange={(e) => setForm({ ...form, place: e.target.value })}
+              placeholder="Event location"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-1">
+          <label className="text-sm font-medium">Department</label>
+          <select
+            className="w-full border rounded px-3 py-2"
+            value={form.department}
+            onChange={(e) => setForm({ ...form, department: e.target.value })}
+          >
+            <option value="Central">Central</option>
+            <option value="CSE & CSIT">CSE & CSIT</option>
+            <option value="GDM">GDM</option>
+            <option value="FDT">FDT</option>
+            <option value="BBA">BBA</option>
+            <option value="AMMT">AMMT</option>
+            <option value="ENGLISH">ENGLISH</option>
+          </select>
+        </div>
+
+        <button
+          disabled={!token}
+          title={!token ? 'Login to Create an event' : ''}
+          className={`border rounded px-4 py-1 text-sm
+            ${!token ? 'opacity-50 cursor-not-allowed' : ''}
+          `}
         >
-          <option value="Central">Central</option>
-          <option value="CSE & CSIT">CSE & CSIT</option>
-          <option value="GDM">GDM</option>
-          <option value="FDT">FDT</option>
-          <option value="BBA">BBA</option>
-          <option value="AMMT">AMMT</option>
-          <option value="ENGLISH">ENGLISH</option>
-        </select>
-      </div>
-
-      <button className="border rounded px-4 py-1 text-sm">Create Event</button>
-    </form>
+            Create Event
+        </button>
+      </form>
+    </>
   );
 }

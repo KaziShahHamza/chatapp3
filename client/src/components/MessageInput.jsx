@@ -1,3 +1,4 @@
+// client/src/components/MessageInput.jsx
 import React, { useState } from 'react';
 import { Send } from 'lucide-react';
 import socket from '../services/socket';

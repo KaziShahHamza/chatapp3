@@ -1,7 +1,7 @@
-import React from 'react';
+// client/src/components/ChatHeader.jsx
 import { LogOut, Hash, User } from 'lucide-react';
 
-const ChatHeader = ({ user, onLogout }) => (
+const ChatHeader = ({ user }) => (
   <header className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm z-10">
     <div className="flex items-center gap-3">
       <div className="bg-blue-100 p-2 rounded-lg text-blue-600">
@@ -21,13 +21,7 @@ const ChatHeader = ({ user, onLogout }) => (
         <User size={16} className="text-slate-600" />
         <span className="text-sm font-semibold text-slate-700">{user.name}</span>
       </div>
-      <button 
-        onClick={onLogout}
-        className="flex items-center gap-2 text-slate-500 hover:text-red-600 transition-colors p-2 hover:bg-red-50 rounded-lg"
-        title="Logout"
-      >
-        <LogOut size={20} />
-      </button>
+
     </div>
   </header>
 );

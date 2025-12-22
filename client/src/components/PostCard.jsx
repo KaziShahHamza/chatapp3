@@ -43,6 +43,7 @@ return (
         <div className="flex gap-4">
 
             <div>
+                <p className='text-lg font-semibold'>{post.title}</p>
                 <p className="text-sm text-gray-600">
                 <span className="capitalize">{post.category}</span> •{' '}
                 <span className="font-medium">{post.department}</span> •{' '}
@@ -51,7 +52,7 @@ return (
                 </p>
 
                 <p className="mt-2 text-gray-800 line-clamp-2">
-                    {post.body.substring(0, 30)}
+                    {post.body.substring(0, 30)}...
                 </p>
 
                 <div className="mt-3 text-sm text-gray-500 flex gap-4 mx-auto items-center">

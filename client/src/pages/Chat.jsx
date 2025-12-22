@@ -10,7 +10,7 @@ import MessageList from '../components/MessageList';
 import MessageInput from '../components/MessageInput';
 
 const Chat = ({user}) => {
-  console.log("Current User  Object:", user); // Check your browser console!
+  console.log("Current User  Object:", user); // browser console
 
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -83,7 +83,7 @@ const handleSendMessage = (text) => {
   if (!user) return null;
 
   return (
-    <div className="flex flex-col max-w-3xl mx-auto h-screen bg-slate-50">
+    <div className="flex flex-col max-w-2xl mx-auto max-h-screen bg-slate-50">
       <ChatHeader user={user} onLogout={handleLogout} />
       
       <main className="flex-1 overflow-hidden flex flex-col relative">
