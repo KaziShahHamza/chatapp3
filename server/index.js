@@ -10,6 +10,8 @@ import postRoutes from './routes/post.routes.js';
 import { Server } from 'socket.io';
 import Message from './models/Message.js';
 import userRoutes from './routes/user.routes.js';
+import requestRoutes from './routes/request.routes.js';
+
 
 const app = express();
 
@@ -20,6 +22,7 @@ app.use('/api', authRouter);
 app.use('/api/messages', messageRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/requests', requestRoutes);
 
 
 const server = http.createServer(app);

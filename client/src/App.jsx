@@ -1,4 +1,3 @@
-// client/src/App.jsx
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -12,6 +11,8 @@ import Navbar from './components/Navbar';
 import Posts from './pages/Posts';
 import PostDetails from './pages/PostDetails';
 
+import Requests from './pages/Requests';
+import RequestDetails from './pages/RequestDetails';
 
 import { getStoredUser } from './services/auth';
 
@@ -20,7 +21,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      {<Navbar user={user} setUser={setUser} />}
+      <Navbar user={user} setUser={setUser} />
 
       <Routes>
         {/* Public */}
@@ -34,41 +35,24 @@ export default function App() {
         />
 
         {/* Protected */}
-        <Route
-          path="/"
-          element={ <Home />}
-        />
-
+        <Route path="/" element={<Home />} />
         <Route
           path="/dashboard"
           element={user ? <Dashboard user={user} /> : <Navigate to="/login" />}
         />
-
-        <Route
-          path="/profile/:id"
-          element={<Profile />}
-        />
-
-        <Route
-          path="/chat"
-          element={<Chat user={user} />}
-        />
+        <Route path="/profile/:id" element={<Profile />} />
+        <Route path="/chat" element={<Chat user={user} />} />
 
         {/* POSTS */}
-        <Route
-          path="/posts"
-          element={<Posts />}
-        />
-        <Route
-          path="/posts/:id"
-          element={<PostDetails />}
-        />
+        <Route path="/posts" element={<Posts />} />
+        <Route path="/posts/:id" element={<PostDetails />} />
+
+        {/* REQUESTS */}
+        <Route path="/requests" element={<Requests />} />
+        <Route path="/requests/:id" element={<RequestDetails />} />
 
         {/* Fallback */}
-        <Route
-          path="*"
-          element={<Navigate to="/" />}
-        />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   );
