@@ -40,12 +40,12 @@ export default function PostForm({ token, onPostCreated }) {
   return (
     <>
     {!token && (
-      <p className="text-sm text-red-500">
+      <p className="text-sm text-red-600 mb-2">
         Login to publish a post and interact with others.
       </p>
     )}
 
-    <form onSubmit={submit} className="space-y-4 border rounded p-4">
+    <form onSubmit={submit} className="card-shell space-y-4">
       {error && (
         <p className="text-sm text-red-600">{error}</p>
         
@@ -54,7 +54,7 @@ export default function PostForm({ token, onPostCreated }) {
       <div className="space-y-1">
         <label className="text-sm font-medium">Title</label>
         <input
-          className="w-full border rounded px-3 py-2"
+          className="input-shell"
           placeholder="Short, clear title"
           value={form.title}
           onChange={(e) =>
@@ -66,7 +66,7 @@ export default function PostForm({ token, onPostCreated }) {
       <div className="space-y-1">
         <label className="text-sm font-medium">Description</label>
         <textarea
-          className="w-full border rounded px-3 py-2"
+          className="input-shell"
           rows={4}
           placeholder="Describe your issue, idea, or experience"
           value={form.body}
@@ -80,7 +80,7 @@ export default function PostForm({ token, onPostCreated }) {
         <div className="space-y-1">
           <label className="text-sm font-medium">Category</label>
           <select
-            className="w-full border rounded px-3 py-2"
+            className="input-shell"
             value={form.category}
             onChange={(e) =>
               setForm({ ...form, category: e.target.value })
@@ -97,7 +97,7 @@ export default function PostForm({ token, onPostCreated }) {
         <div className="space-y-1">
           <label className="text-sm font-medium">Department</label>
           <select
-            className="w-full border rounded px-3 py-2"
+            className="input-shell"
             value={form.department}
             onChange={(e) =>
               setForm({ ...form, department: e.target.value })
@@ -116,9 +116,7 @@ export default function PostForm({ token, onPostCreated }) {
       <button
         disabled={!token}
         title={!token ? 'Login to publish a post' : ''}
-        className={`border rounded px-4 py-1 text-sm
-          ${!token ? 'opacity-50 cursor-not-allowed' : ''}
-        `}
+        className={`btn-primary text-sm w-full text-center ${!token ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
         Publish Post
       </button>

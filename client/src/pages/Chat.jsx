@@ -55,26 +55,36 @@ export default function Chat() {
     });
   };
 
-  return (
-    <div className="flex flex-col max-w-2xl mx-auto h-screen bg-slate-50">
-      <ChatHeader />
+return (
+    <div className="max-w-2xl mx-auto m-1 h-[calc(100vh-70px)] flex flex-col">
+      <div className="bg-indigo-50 rounded-md border border-gray-200 shadow-sm flex flex-col h-full overflow-hidden">
 
-      <main className="flex-1 overflow-hidden">
-        {loading ? (
-          <div className="h-full flex items-center justify-center">Loading...</div>
-        ) : (
-          <MessageList
-            messages={messages}
-            currentUser={user}
-            typingUser={typingUser}
-          />
-        )}
-      </main>
+        {/* Header */}
+        <ChatHeader />
 
-      <MessageInput
-        onSendMessage={handleSendMessage}
-        disabled={!user}
-      />
+        {/* Messages */}
+        <div className="flex-1 overflow-hidden flex">
+          {loading ? (
+            <div className="h-full flex items-center justify-center text-gray-600">
+              Loading...
+            </div>
+          ) : (
+            <MessageList
+              messages={messages}
+              currentUser={user}
+              typingUser={typingUser}
+            />
+          )}
+        </div>
+
+        {/* Input — ALWAYS VISIBLE */}
+        <MessageInput
+          onSendMessage={handleSendMessage}
+          disabled={!user}
+        />
+
+      </div>
     </div>
   );
+
 }

@@ -28,23 +28,23 @@ export default function RequestCard({ request, token, onUpdate, label }) {
   return (
     <div
       onClick={() => navigate(`/requests/${request._id}`)}
-      className="border rounded p-4 hover:bg-gray-50 cursor-pointer flex flex-col max-h-full transition"
+      className="card-shell cursor-pointer flex flex-col max-h-full"
     >
       {label && (
-        <span className="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded mb-2 w-max">
+        <span className="badge-soft bg-yellow-100 text-yellow-700 border border-yellow-200 mb-2 w-max">
           {label}
         </span>
       )}
 
       <div className="flex-1">
-        <h3 className="text-lg font-semibold">{request.title}</h3>
+        <h3 className="text-lg font-semibold text-[#213448]">{request.title}</h3>
         <p className="text-sm text-gray-600 mt-1">
           <span className="capitalize">{request.category}</span> •{' '}
           <span className="capitalize">{request.department}</span> •{' '}
           {request.author?.name} • <span>{timeAgo(request.createdAt)}</span>
         </p>
 
-        <p className="mt-2 text-gray-800 line-clamp-3">{request.body}</p>
+        <p className="mt-2 text-gray-700 line-clamp-3 leading-relaxed">{request.body}</p>
       </div>
 
       <div className="mt-4 flex justify-between items-center text-sm text-gray-500">
@@ -59,7 +59,9 @@ export default function RequestCard({ request, token, onUpdate, label }) {
         <span>{request.comments.length} comments</span>
       </div>
 
-      {request.resolved && <span className="text-green-600 text-sm mt-1">Resolved</span>}
+      {request.resolved && (
+        <span className="text-green-600 text-sm mt-1 font-medium">Resolved</span>
+      )}
     </div>
   );
 }

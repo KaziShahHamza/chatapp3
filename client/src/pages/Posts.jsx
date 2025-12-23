@@ -49,23 +49,21 @@ export default function Posts() {
   });
 
   return (
-    <div className="max-w-6xl mx-auto p-4">
-      <h2 className="text-2xl font-semibold mb-2">Campus Complaints & Suggestions</h2>
-      <p className="text-gray-600 mb-4 text-sm">
-        Share campus problems, ideas, or experiences and see what others have posted.
-      </p>
+    <div className="max-w-6xl mx-auto p-6 space-y-6">
+      <div className="space-y-1">
+        <h2 className="text-2xl font-semibold">Campus Complaints & Suggestions</h2>
+        <p className="text-gray-600 text-sm">
+          Share campus problems, ideas, or experiences and see what others have posted.
+        </p>
+      </div>
 
       {/* Time filter */}
-      <div className="flex gap-2 mb-4 flex-wrap">
+      <div className="flex gap-2 flex-wrap bg-white border border-gray-200 rounded-md p-3 shadow-sm">
         {Object.entries(TIME_FILTERS).map(([key, label]) => (
           <button
             key={key}
             onClick={() => setFilterTime(key)}
-            className={`px-3 py-1 rounded-md text-sm font-medium transition
-              ${filterTime === key
-                ? 'bg-green-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+            className={`${filterTime === key ? 'btn-primary' : 'btn-secondary'} text-sm`}
           >
             {label}
           </button>
@@ -73,7 +71,7 @@ export default function Posts() {
       </div>
 
       {/* Two-column layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6 items-start">
         {/* Left: Posts */}
         <div className="space-y-4">
           {filteredPosts.length ? (
@@ -91,7 +89,7 @@ export default function Posts() {
         </div>
 
         {/* Right: Post form */}
-        <div>
+        <div className="sticky top-6">
           <PostForm
             token={token}
             onPostCreated={newPost =>

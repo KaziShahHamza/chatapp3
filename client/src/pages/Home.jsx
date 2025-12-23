@@ -69,40 +69,41 @@ export default function Home() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-4">
-      <h2 className="text-2xl font-semibold mb-2">Campus Feed</h2>
-      <p className="text-gray-600 mb-4">Latest updates from across the campus</p>
-
-      <div className='flex flex-col md:flex-row gap-4 md:items-center md:justify-between'>
-    {/* Category filter */}
-      <div className="flex gap-2 mb-4 flex-wrap">
-        {['all', 'posts', 'requests', 'events'].map(f => (
-          <button
-            key={f}
-            onClick={() => setFilterCategory(f)}
-            className={`px-3 py-1 rounded-md text-sm font-medium transition
-              ${filterCategory === f ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
-          >
-            {f === 'all' ? 'All' : f === 'posts' ? 'Complaints' : f === 'requests' ? 'Requests' : 'Events'}
-          </button>
-        ))}
-      </div>
-      {/* Time filter */}
-      <div className="flex gap-2 mb-4 flex-wrap">
-        {Object.entries(TIME_FILTERS).map(([key, label]) => (
-          <button
-            key={key}
-            onClick={() => setFilterTime(key)}
-            className={`px-3 py-1 rounded-md text-sm font-medium transition
-              ${filterTime === key ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
-          >
-            {label}
-          </button>
-        ))}
+    <div className="max-w-6xl mx-auto p-6 space-y-6">
+      <div className="space-y-1">
+        <h2 className="text-2xl font-semibold">Campus Feed</h2>
+        <p className="text-gray-600">Latest updates from across the campus</p>
       </div>
 
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        {/* Category filter */}
+        <div className="flex gap-2 flex-wrap bg-white border border-gray-200 rounded-md p-3 shadow-sm">
+          {['all', 'posts', 'requests', 'events'].map(f => (
+            <button
+              key={f}
+              onClick={() => setFilterCategory(f)}
+              className={`${filterCategory === f
+                ? 'btn-primary'
+                : 'btn-secondary'} text-sm`}
+            >
+              {f === 'all' ? 'All' : f === 'posts' ? 'Complaints' : f === 'requests' ? 'Requests' : 'Events'}
+            </button>
+          ))}
+        </div>
+
+        {/* Time filter */}
+        <div className="flex gap-2 flex-wrap bg-white border border-gray-200 rounded-md p-3 shadow-sm">
+          {Object.entries(TIME_FILTERS).map(([key, label]) => (
+            <button
+              key={key}
+              onClick={() => setFilterTime(key)}
+              className={`${filterTime === key ? 'btn-primary' : 'btn-secondary'} text-sm`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
       </div>
-  
 
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

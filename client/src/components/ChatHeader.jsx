@@ -6,14 +6,14 @@ export default function ChatHeader() {
   const { user } = useAuth();
 
   return (
-    <header className="bg-white border-b px-6 py-4 flex justify-between">
+    <header className="bg-[#4f7baa] text-white px-6 py-4 flex justify-between items-center shadow-sm">
       <div className="flex items-center gap-3">
         <Hash />
-        <h1 className="font-bold">Global Chat Room</h1>
+        <p className="font-bold text-lg ">Global Chat Room</p>
       </div>
 
       {user && (
-        <div className="flex items-center gap-2 text-sm">
+        <div className="flex items-center gap-2 text-sm bg-white/10 px-3 py-1.5 rounded-full">
           <User size={16} />
           {user.name}
         </div>

@@ -16,9 +16,9 @@ export default function VoteButtons({
           disabled={disabled}
           onClick={onLike}
           className={`
-            flex items-center gap-1 px-3 py-1.5 rounded-md border text-sm
-            transition-all duration-150
-            ${myVote === 1 ? 'bg-green-50 text-green-600 border-green-500' : 'hover:bg-gray-100'}
+            inline-flex items-center gap-1 px-3 py-1.5 rounded-full border text-sm font-medium shadow-sm
+            transition-all duration-150 bg-white
+            ${myVote === 1 ? 'bg-green-100 text-green-700 border-green-300' : 'border-gray-200 hover:bg-gray-50'}
             ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer active:scale-95'}
           `}
         >
@@ -32,9 +32,9 @@ export default function VoteButtons({
           disabled={disabled}
           onClick={onDislike}
           className={`
-            flex items-center gap-1 px-3 py-1.5 rounded-md border text-sm
-            transition-all duration-150
-            ${myVote === -1 ? 'bg-red-50 text-red-600 border-red-500' : 'hover:bg-gray-100'}
+            inline-flex items-center gap-1 px-3 py-1.5 rounded-full border text-sm font-medium shadow-sm
+            transition-all duration-150 bg-white
+            ${myVote === -1 ? 'bg-red-100 text-red-600 border-red-300' : 'border-gray-200 hover:bg-gray-50'}
             ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer active:scale-95'}
           `}
         >

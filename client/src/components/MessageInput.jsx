@@ -20,7 +20,7 @@ export default function MessageInput({ onSendMessage, disabled }) {
   };
 
   return (
-    <div className="p-4 bg-white border-t">
+    <div className="p-4 bg-white border-t border-gray-200">
       <form onSubmit={submit} className="flex gap-2 relative group">
         <input
           disabled={disabled}
@@ -30,16 +30,12 @@ export default function MessageInput({ onSendMessage, disabled }) {
           placeholder={
             disabled ? 'Login to participate in chat' : 'Type a message...'
           }
-          className={`flex-1 rounded-xl px-4 py-3 text-sm
-            ${disabled
-              ? 'bg-slate-200 cursor-not-allowed'
-              : 'bg-slate-100 focus:ring-2 focus:ring-blue-500'
-            }`}
+          className={`flex-1 input-shell text-sm ${disabled ? 'bg-slate-100 cursor-not-allowed' : ''}`}
         />
 
         <button
           disabled={disabled || !text.trim()}
-          className="bg-blue-600 disabled:bg-slate-300 text-white p-3 rounded-xl"
+          className="btn-primary disabled:bg-slate-300 disabled:border-slate-300 disabled:text-white p-3 rounded-xl"
         >
           {disabled ? <Lock size={18} /> : <Send size={18} />}
         </button>

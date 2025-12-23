@@ -38,28 +38,28 @@ export default function EventCard({ event, token, onUpdate, label }) {
   return (
     <div
       onClick={() => navigate(`/events/${event._id}`)}
-      className="border rounded p-4 hover:bg-gray-50 cursor-pointer flex flex-col max-h-full transition"
+      className="card-shell cursor-pointer flex flex-col max-h-full"
     >
       {label && (
-        <span className="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded mb-2 w-max">
+        <span className="badge-soft bg-blue-100 text-blue-700 border border-blue-200 mb-2 w-max">
           {label}
         </span>
       )}
 
       <div className="flex-1">
-        <h3 className="text-lg font-semibold">{event.title}</h3>
+        <h3 className="text-lg font-semibold text-[#213448]">{event.title}</h3>
         <p className="text-sm text-gray-600 mt-1">
           {event.organizer?.name} • {event.department} • <span className="italic">{timeAgo(event.createdAt)}</span>
         </p>
 
         {/* Event highlights */}
         <div className="flex flex-wrap gap-2 mt-2 text-sm">
-          <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded">{formattedDate.split(', ')[0]}, {formattedDate.split(', ')[1]}</span>
-         
-          <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded">{event.place}</span>
+          <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded border border-blue-200">{formattedDate.split(', ')[0]}, {formattedDate.split(', ')[1]}</span>
+          
+          <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded border border-green-200">{event.place}</span>
         </div>
 
-        <p className="mt-2 text-gray-800 line-clamp-3">{event.description}</p>
+        <p className="mt-2 text-gray-700 line-clamp-3 leading-relaxed">{event.description}</p>
       </div>
 
       <div className="mt-4 flex justify-between items-center text-sm text-gray-500">
