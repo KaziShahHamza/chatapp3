@@ -11,6 +11,8 @@ export default function PostDetails() {
   const { token } = useAuth();
   const [post, setPost] = useState(null);
   const [comment, setComment] = useState('');
+  const [commentError, setCommentError] = useState('');
+
 
   const load = async () => {
     const data = await fetchPost(id);
@@ -91,13 +93,19 @@ export default function PostDetails() {
 
       {/* Add comment */}
       <form
-        onSubmit={e => {
+        onSubmit={async e => {
           e.preventDefault();
           if (!token || !comment.trim()) return;
-          commentPost(id, comment, token).then(() => {
+
+          setCommentError('');
+
+          try {
+            await commentPost(id, comment, token);
             setComment('');
             load();
-          });
+          } catch (err) {
+            setCommentError(err.message);
+          }
         }}
         className="pt-4 space-y-2"
       >
@@ -118,6 +126,11 @@ export default function PostDetails() {
             Add Comment
           </button>
         </Tooltip>
+
+        {commentError && (
+          <p className="text-sm text-red-600">{commentError}</p>
+        )}
+
       </form>
     </div>
 

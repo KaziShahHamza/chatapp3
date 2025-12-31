@@ -27,6 +27,7 @@ h1, h2, h3, h4, h5, h6 {
 
 a {
 	color: inherit;
+	cursor: pointer;
 }
 
 .card-shell {
@@ -52,6 +53,7 @@ a {
 	border: 1px solid var(--color-primary);
 	font-weight: 600;
 	transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+	cursor: pointer;
 }
 
 .btn-primary:hover {
@@ -71,6 +73,7 @@ a {
 	border: 1px solid #e5e7eb;
 	font-weight: 500;
 	transition: background-color 120ms ease, transform 120ms ease;
+	cursor: pointer;
 }
 
 .btn-secondary:hover {
@@ -88,6 +91,7 @@ a {
 	padding: 0.65rem 0.75rem;
 	background: #fff;
 	transition: border-color 120ms ease, box-shadow 120ms ease;
+	cursor: text;
 }
 
 .input-shell:focus {

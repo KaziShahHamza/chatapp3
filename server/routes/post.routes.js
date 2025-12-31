@@ -3,21 +3,35 @@ import express from 'express';
 import Post from '../models/Post.js';
 import auth from '../middlewares/auth.js';
 import authOptional from '../middlewares/authOptional.js';
+import { checkForSlang } from '../utils/geminiCheck.js';
+
 
 const router = express.Router();
 
-// create post
 router.post('/', auth, async (req, res) => {
-	try {
-		const post = await Post.create({
-			...req.body,
-			author: req.user.id
-		});
-		res.status(201).json(post);
-	} catch (err) {
-		res.status(400).json({ message: err.message });
-	}
+  try {
+    const { title, body } = req.body;
+
+    const fullText = `${title} ${body}`;
+    const check = await checkForSlang(fullText);
+
+    if (check === "BLOCKED") {
+      return res.status(400).json({
+        message: "Post contains inappropriate language",
+      });
+    }
+
+    const post = await Post.create({
+      ...req.body,
+      author: req.user.id,
+    });
+
+    res.status(201).json(post);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 });
+
 
 // get all posts (filters)
 router.get('/', async (req, res) => {
@@ -78,14 +92,25 @@ router.patch('/:id/vote', auth, async (req, res) => {
 
 // add comment
 router.post('/:id/comments', auth, async (req, res) => {
-	const post = await Post.findById(req.params.id);
-	post.comments.push({
-		author: req.user.id,
-		content: req.body.content
-	});
-	await post.save();
-	res.json(post);
+  const { content } = req.body;
+
+  const check = await checkForSlang(content);
+  if (check === "BLOCKED") {
+    return res.status(400).json({
+      message: "Comment contains inappropriate language",
+    });
+  }
+
+  const post = await Post.findById(req.params.id);
+  post.comments.push({
+    author: req.user.id,
+    content,
+  });
+
+  await post.save();
+  res.json(post);
 });
+
 
 // vote comment
 router.patch('/:id/comments/:commentId/vote', auth, async (req, res) => {

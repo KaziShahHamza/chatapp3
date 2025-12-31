@@ -22,8 +22,16 @@ export const createPost = async (data, token) => {
     headers: authHeader(token),
     body: JSON.stringify(data),
   });
-  return res.json();
+
+  const result = await res.json();
+
+  if (!res.ok) {
+    throw new Error(result.message || 'Failed to create post');
+  }
+
+  return result;
 };
+
 
 export const votePost = async (id, value, token) => {
   const res = await fetch(`${API}/${id}/vote`, {
@@ -41,12 +49,21 @@ export const votePost = async (id, value, token) => {
 
 
 export const commentPost = async (id, content, token) => {
-  await fetch(`${API}/${id}/comments`, {
+  const res = await fetch(`${API}/${id}/comments`, {
     method: 'POST',
     headers: authHeader(token),
     body: JSON.stringify({ content }),
   });
+
+  const result = await res.json();
+
+  if (!res.ok) {
+    throw new Error(result.message || 'Failed to add comment');
+  }
+
+  return result;
 };
+
 
 export const voteComment = async (postId, commentId, value, token) => {
   await fetch(`${API}/${postId}/comments/${commentId}/vote`, {
